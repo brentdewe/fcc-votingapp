@@ -1,8 +1,11 @@
 'use strict';
 
 var express = require('express');
+var mongoose = require('mongoose');
 
 require('dotenv').load();
+
+mongoose.connect(process.env.MONGO_URI);
 
 var app = express();
 
