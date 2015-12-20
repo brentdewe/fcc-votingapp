@@ -16,7 +16,7 @@ require('./app/config/passport')(passport);
 app.use(session({
 	resave: false,
 	saveUninitialized: true,
-	secret: '(k0BzoFlvqnXR6S%"#{A',
+	secret: process.env.SESSION_SECRET,
 	store: new MongoDBStore({
 		uri: process.env.MONGO_URI,
 		collection: 'sessions'
