@@ -4,7 +4,8 @@
   "description": "Voting web app",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch:server": "nodemon -q -I"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,8 @@
     "mongoose": "^4.3.3",
     "passport": "^0.3.2",
     "passport-github": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.8.1"
   }
 }
