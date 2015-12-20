@@ -19,14 +19,23 @@ module.exports = function(passport) {
 		clientSecret: process.env.GITHUB_CLIENT_SECRET,
 		callbackURL: process.env.APP_URL + '/auth/github/callback'
 	}, function(accessToken, refreshToken, profile, done) {
-		User.findOrCreate({
-			github: {
+		User.findOne({ 'github.id': profile.id }, function (err, user) {
+			if (err) {
+				return done(err);
+			}
+			if (user) {
+				return done(null, user);
+			}
+			new User({ github: {
 				id: profile.id,
 				username: profile.username,
 				displayname: profile.displayName
-			}
-		}, function (err, user) {
-			return done(err, user);
+			}}).save(function(err, user) {
+				if (err) {
+					return done(err);
+				}
+				return done(null, user);
+			});
 		})
 	}));
 }
