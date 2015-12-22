@@ -9,9 +9,7 @@ module.exports = function(passport) {
 	});
 
 	passport.deserializeUser(function(id, done) {
-		User.findById(id, function(err, user) {
-			done(err, user);
-		});
+		User.findById(id, done);
 	});
 
 	passport.use(new GitHubStrategy({
@@ -30,12 +28,7 @@ module.exports = function(passport) {
 				id: profile.id,
 				username: profile.username,
 				displayname: profile.displayName
-			}}).save(function(err, user) {
-				if (err) {
-					return done(err);
-				}
-				return done(null, user);
-			});
+			}}).save(done);
 		})
 	}));
 }
