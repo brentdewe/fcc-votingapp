@@ -25,6 +25,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/angular.min.js', express.static('./node_modules/angular/angular.min.js'));
+app.use('/controllers', express.static('./public/controllers'));
 app.use('/', express.static('./public/views'));
 require('./app/routes')(app, passport);
 
