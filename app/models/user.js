@@ -21,20 +21,18 @@ function hash(password, salt, callback) {
 }
 
 user.methods.setPassword = function(password, salt, callback) {
-	var obj = this;
-	hash(password, salt, function(err, key) {
+	hash(password, salt, (err, key) => {
 		if (!err) {
-			obj.password.salt = salt;
-			obj.password.hash = key.toString('base64');
+			this.password.salt = salt;
+			this.password.hash = key.toString('base64');
 		}
-		callback(err, obj);
+		callback(err, this);
 	});
 }
 
 user.methods.verifyPassword = function(password, callback) {
-	var obj = this;
-	hash(password, this.password.salt, function(err, key) {
-		if (!err && key.toString('base64') == obj.password) {
+	hash(password, this.password.salt, (err, key) => {
+		if (!err && key.toString('base64') == this.password) {
 			callback(null, true);
 		} else {
 			callback(err, false);
