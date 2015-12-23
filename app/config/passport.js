@@ -1,6 +1,7 @@
 'use strict';
 
 var GitHubStrategy = require('passport-github');
+var LocalStrategy = require('passport-local');
 var User = require('../models/user');
 
 module.exports = function(passport) {
@@ -29,6 +30,18 @@ module.exports = function(passport) {
 				username: profile.username,
 				displayname: profile.displayName
 			}}).save(done);
+		})
+	}));
+
+	passport.use(new LocalStrategy(function(username, password, done) {
+		User.findOne({ 'password.username': username }, function(err, user) {
+			if (err) {
+				return done(err);
+			}
+			if (!user || !user.verifyPassword(password)) {
+				return done(null, false);
+			}
+			return done(null, user);
 		})
 	}));
 }
