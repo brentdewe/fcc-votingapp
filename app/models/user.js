@@ -20,13 +20,16 @@ function hash(password, salt, callback) {
 	crypto.pbkdf2(password, salt, 50000, 256, 'sha256', callback);
 }
 
-user.methods.setPassword = function(password, salt, callback) {
-	hash(password, salt, (err, key) => {
-		if (!err) {
-			this.password.salt = salt;
-			this.password.hash = key.toString('base64');
-		}
-		callback(err, this);
+user.methods.setPassword = function(password, callback) {
+	crypto.randomBytes(64, (err, salt) => {
+		salt = salt.toString('base64');
+		hash(password, salt, (err, key) => {
+			if (!err) {
+				this.password.salt = salt;
+				this.password.hash = key.toString('base64');
+			}
+			callback(err, this);
+		});
 	});
 }
 
