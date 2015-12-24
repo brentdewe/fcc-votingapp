@@ -1,3 +1,5 @@
+(function() {
+
 var pollsApp = angular.module('pollsApp', []);
 
 pollsApp.controller('PollsCtrl', ['$scope', '$http', function($scope, $http) {
@@ -5,3 +7,5 @@ pollsApp.controller('PollsCtrl', ['$scope', '$http', function($scope, $http) {
 		$scope.polls = res.data;
 	});
 }]);
+
+})();
