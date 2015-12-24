@@ -17,7 +17,7 @@ var user = mongoose.Schema({
 });
 
 function hash(password, salt, callback) {
-	crypto.pbkdf2(password, salt, 50000, 256, 'sha256', callback);
+	crypto.pbkdf2(password, salt, 20000, 256, 'sha256', callback);
 }
 
 user.methods.setPassword = function(password, callback) {
@@ -35,7 +35,7 @@ user.methods.setPassword = function(password, callback) {
 
 user.methods.verifyPassword = function(password, callback) {
 	hash(password, this.password.salt, (err, key) => {
-		if (!err && key.toString('base64') == this.password) {
+		if (!err && key.toString('base64') == this.password.hash) {
 			callback(null, true);
 		} else {
 			callback(err, false);

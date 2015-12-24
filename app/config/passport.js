@@ -6,7 +6,7 @@ var User = require('../models/user');
 
 module.exports = function(passport) {
 	passport.serializeUser(function(user, done) {
-		done(null, user.id);
+		done(null, user._id);
 	});
 
 	passport.deserializeUser(function(id, done) {
@@ -38,10 +38,15 @@ module.exports = function(passport) {
 			if (err) {
 				return done(err);
 			}
-			if (!user || !user.verifyPassword(password)) {
+			if (!user) {
 				return done(null, false);
 			}
-			return done(null, user);
+			user.verifyPassword(password, function(err, valid) {
+				if (valid) {
+					return done(null, user);
+				}
+				done(err, false);
+			});
 		})
 	}));
 }
