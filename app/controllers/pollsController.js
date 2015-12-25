@@ -6,18 +6,19 @@ var Poll = require('../models/poll');
 
 module.exports = function() {
 
-	this.search = function(req, res, next) {
-		var query = {};
-		if (req.query.owner) {
-			try {
-				query.owner = mongoose.Types.ObjectId(req.query.owner);
-			} catch (err) {
-				query.owner = null;
-			}
-		}
-		Poll.find(query, function(err, polls) {
+	this.findAll = function(req, res, next) {
+		Poll.find(function(err, polls) {
 			if (err) { return next(err); }
 			res.json(polls);
 		});
+	}
+
+	this.findOwned = function(req, res, next) {
+		Poll.find({ owner: req.user.id }, function(err, polls) {
+			if (err) {
+				return next(err);
+			}
+			res.json(polls);
+		})
 	}
 }

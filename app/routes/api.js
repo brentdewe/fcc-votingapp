@@ -2,16 +2,19 @@
 
 var router = require('express').Router();
 
-function requireLoginForApi(req, res, next) {
+function requireLogin(req, res, next) {
 	if (req.isAuthenticated()) {
-		return next();
+		next();
+	} else {
+		res.status(401).end();
 	}
-	res.json(null);
 }
 
 var PollsController = require('../controllers/pollsController');
 var pollsCtrl = new PollsController();
 
-router.get('/polls/search', requireLoginForApi, pollsCtrl.search);
+router.get('/polls/all', pollsCtrl.findAll);
+
+router.get('/polls/owned', requireLogin, pollsCtrl.findOwned);
 
 module.exports = router;
