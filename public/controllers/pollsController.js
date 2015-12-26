@@ -11,10 +11,15 @@ pollsApp.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/list.html',
 		controller: 'OwnedPollsCtrl'
 	})
+	.when('/create', {
+		templateUrl: 'partials/create.html',
+		controller: 'PollCreateCtrl'
+	})
 	.otherwise({
 		redirectTo: '/all'
 	});
 }]);
+
 
 pollsApp.controller('AllPollsCtrl', ['$scope', '$http', function($scope, $http) {
 	$http.get('/api/polls/all').then(function(res) {
@@ -22,10 +27,41 @@ pollsApp.controller('AllPollsCtrl', ['$scope', '$http', function($scope, $http) 
 	});
 }]);
 
+
 pollsApp.controller('OwnedPollsCtrl', ['$scope', '$http', function($scope, $http) {
 	$http.get('/api/polls/owned').then(function(res) {
 		$scope.polls = res.data;
 	});
+}]);
+
+
+pollsApp.controller('PollCreateCtrl', ['$scope', '$compile',
+ function($scope, $compile) {
+	$scope.poll = {};
+	$scope.poll.items = [];
+	$scope.itemCount = 0;
+
+	$scope.submit = function(poll) {
+		console.log(JSON.stringify(poll));
+	}
+}]);
+
+
+pollsApp.directive('itemList', ['$compile', function($compile) {
+	return {
+		restrict: 'A',
+		link: function(scope, element, attrs) {
+			element.find('button').bind('click', function() {
+				var html = '<li><input type="text" ng-model="poll.items['
+					+ scope.itemCount + '].text"></li>';
+				var compiled = $compile(angular.element(html))(scope);
+				element.find('ul').append(compiled);
+
+				scope.poll.items.push({});
+				++scope.itemCount;
+			});
+		}
+	};
 }]);
 
 })();

@@ -1,0 +1,17 @@
+<form>
+	<p>
+		<label for="input-title">Title:</label>
+		<input id="input-title" type="text" ng-model="poll.title">
+	</p>
+	<p>
+		<label for="input-desc">Description:</label><br>
+		<textarea id="input-desc" ng-model="poll.description"></textarea>
+	</p>
+	<!-- items -->
+	<p>Items:<p>
+	<div item-list>
+		<ul></ul>
+		<button>Add item</button>
+	</div>
+	<button ng-click="submit(poll)">Create</button>
+</form>
