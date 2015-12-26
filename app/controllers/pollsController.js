@@ -16,6 +16,8 @@ module.exports = function() {
 
 	this.create = function(req, res, next) {
 		req.body.owner = req.user._id;
-		new Poll(req.body).save().then(res.status(201).json.bind(res), next);
+		new Poll(req.body).save().then(function(poll) {
+			res.status(201).json(poll);
+		}, next);
 	}
 }
