@@ -13,6 +13,8 @@ mongoose.connect(process.env.MONGO_URI);
 
 var app = express();
 
+require('./app/routes/static')(app);
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -29,11 +31,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/angular.min.js', express.static('./node_modules/angular/angular.min.js'));
-app.use('/angular-route.min.js',
-		express.static('./node_modules/angular-route/angular-route.min.js'));
-app.use('/controllers', express.static('./public/controllers'));
-app.use('/', express.static('./public/views'));
 require('./app/routes')(app, passport);
 
 var port = process.env.PORT || 3000;
