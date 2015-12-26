@@ -8,7 +8,7 @@ var poll = mongoose.Schema({
 	description: String,
 	items: [{
 		text: String,
-		votes: Number
+		votes: { type: Number, default: 0 }
 	}]
 });
 

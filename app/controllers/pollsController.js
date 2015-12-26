@@ -21,4 +21,14 @@ module.exports = function() {
 			res.json(polls);
 		})
 	}
+
+	this.create = function(req, res, next) {
+		req.body.owner = req.user._id;
+		new Poll(req.body).save(function(err, poll) {
+			if (err) {
+				return next(err);
+			}
+			res.json(poll);
+		});
+	}
 }

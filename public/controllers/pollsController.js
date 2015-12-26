@@ -35,14 +35,14 @@ pollsApp.controller('OwnedPollsCtrl', ['$scope', '$http', function($scope, $http
 }]);
 
 
-pollsApp.controller('PollCreateCtrl', ['$scope', '$compile',
- function($scope, $compile) {
+pollsApp.controller('PollCreateCtrl', ['$scope', '$http',
+ function($scope, $http) {
 	$scope.poll = {};
 	$scope.poll.items = [];
 	$scope.itemCount = 0;
 
 	$scope.submit = function(poll) {
-		console.log(JSON.stringify(poll));
+		$http.post('/api/polls/add', poll);
 	}
 }]);
 
