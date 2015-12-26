@@ -13,8 +13,7 @@ function requireLogin(req, res, next) {
 var PollsController = require('../controllers/pollsController');
 var pollsCtrl = new PollsController();
 
-router.get('/polls/all', pollsCtrl.findAll);
-router.get('/polls/owned', requireLogin, pollsCtrl.findOwned);
-router.post('/polls/add', requireLogin, pollsCtrl.create);
+router.get('/polls', pollsCtrl.find);
+router.post('/polls', requireLogin, pollsCtrl.create);
 
 module.exports = router;

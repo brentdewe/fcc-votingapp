@@ -22,14 +22,14 @@ pollsApp.config(['$routeProvider', function($routeProvider) {
 
 
 pollsApp.controller('AllPollsCtrl', ['$scope', '$http', function($scope, $http) {
-	$http.get('/api/polls/all').then(function(res) {
+	$http.get('/api/polls').then(function(res) {
 		$scope.polls = res.data;
 	});
 }]);
 
 
 pollsApp.controller('OwnedPollsCtrl', ['$scope', '$http', function($scope, $http) {
-	$http.get('/api/polls/owned').then(function(res) {
+	$http.get('/api/polls?owned=1').then(function(res) {
 		$scope.polls = res.data;
 	});
 }]);
@@ -42,7 +42,7 @@ pollsApp.controller('PollCreateCtrl', ['$scope', '$http',
 	$scope.itemCount = 0;
 
 	$scope.submit = function(poll) {
-		$http.post('/api/polls/add', poll);
+		$http.post('/api/polls', poll);
 	}
 }]);
 
