@@ -41,7 +41,7 @@ module.exports = function() {
 
 	this.find = function(req, res, next) {
 		var query = {};
-		if (req.query.owned){
+		if (req.isAuthenticated() && req.query.owned){
 			query.owner = req.user._id;
 		}
 		Poll.find(query).then(res.json.bind(res), next);
