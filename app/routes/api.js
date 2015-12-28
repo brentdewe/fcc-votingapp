@@ -15,5 +15,9 @@ var pollsCtrl = new PollsController();
 
 router.get('/polls', pollsCtrl.find);
 router.post('/polls', requireLogin, pollsCtrl.create);
+router.get('/polls/:id', pollsCtrl.findId);
+router.delete('/polls/:id', requireLogin, pollsCtrl.removeId);
+
+router.use(require('../lib/http-error-handler'));
 
 module.exports = router;
