@@ -4,8 +4,10 @@
   "description": "Voting web app",
   "main": "server.js",
   "scripts": {
+    "build:js": "cpx 'client/modules/**/*.js' client/dist/modules -c 'uglifyjs'",
+    "build:html": "cpx 'client/modules/**/*.html' client/dist/modules",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch:server": "nodemon -q -I"
+    "watch:server": "nodemon -q -I -w app -w server.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,8 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.8.1"
+    "cpx": "^1.2.1",
+    "nodemon": "^1.8.1",
+    "uglify-js": "^2.6.1"
   }
 }
