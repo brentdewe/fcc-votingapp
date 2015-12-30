@@ -3,10 +3,13 @@
 var express = require('express');
 
 module.exports = function(app) {
-	app.use('/angular.min.js', express.static(
+	app.use('/angular.js', express.static(
 			'node_modules/angular/angular.min.js'));
-	app.use('/angular-route.min.js', express.static(
+	app.use('/angular-route.js', express.static(
 			'node_modules/angular-route/angular-route.min.js'));
-	app.use('/controllers', express.static('public/controllers'));
-	app.use('/', express.static('public/views'));
+	app.use('/modules', express.static('client/modules'));
+
+	app.get('/', function(req, res) {
+		res.sendFile(process.cwd() + '/client/index.html');
+	});
 }

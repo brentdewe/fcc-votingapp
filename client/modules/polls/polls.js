@@ -1,41 +1,38 @@
 (function() {
 
-var pollsApp = angular.module('pollsApp', ['ngRoute']);
+var polls = angular.module('polls', ['ngRoute']);
 
-pollsApp.config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/all', {
-		templateUrl: 'partials/list.html',
-		controller: 'AllPollsCtrl'
+polls.config(['$routeProvider', function($routeProvider) {
+	$routeProvider.when('/polls', {
+		templateUrl: '/modules/polls/list.html',
+		controller: 'PollsCtrl'
 	})
-	.when('/owned', {
-		templateUrl: 'partials/list.html',
+	.when('/polls/owned', {
+		templateUrl: '/modules/polls/list.html',
 		controller: 'OwnedPollsCtrl'
 	})
-	.when('/create', {
-		templateUrl: 'partials/create.html',
+	.when('/polls/create', {
+		templateUrl: '/modules/polls/create.html',
 		controller: 'PollCreateCtrl'
-	})
-	.otherwise({
-		redirectTo: '/all'
 	});
 }]);
 
 
-pollsApp.controller('AllPollsCtrl', ['$scope', '$http', function($scope, $http) {
+polls.controller('PollsCtrl', ['$scope', '$http', function($scope, $http) {
 	$http.get('/api/polls').then(function(res) {
 		$scope.polls = res.data;
 	});
 }]);
 
 
-pollsApp.controller('OwnedPollsCtrl', ['$scope', '$http', function($scope, $http) {
+polls.controller('OwnedPollsCtrl', ['$scope', '$http', function($scope, $http) {
 	$http.get('/api/polls?owned=1').then(function(res) {
 		$scope.polls = res.data;
 	});
 }]);
 
 
-pollsApp.controller('PollCreateCtrl', ['$scope', '$http',
+polls.controller('PollCreateCtrl', ['$scope', '$http',
  function($scope, $http) {
 	$scope.poll = {};
 	$scope.poll.items = [];
@@ -47,7 +44,7 @@ pollsApp.controller('PollCreateCtrl', ['$scope', '$http',
 }]);
 
 
-pollsApp.directive('itemList', ['$compile', function($compile) {
+polls.directive('itemList', ['$compile', function($compile) {
 	return {
 		restrict: 'A',
 		link: function(scope, element, attrs) {
