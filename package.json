@@ -8,7 +8,10 @@
     "build:html": "cpx 'client/modules/**/*.html' client/dist/modules -c 'node scripts/minimize-pipe.js'",
     "build": "parallelshell 'npm run build:html' 'npm run build:js'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch:server": "nodemon -q -I -w app -w server.js"
+    "watch:js": "npm run build:js -- -w",
+    "watch:html": "npm run build:html -- -w",
+    "watch:server": "nodemon -q -I -w app -w server.js",
+    "watch": "parallelshell 'npm run watch:js' 'npm run watch:html' 'npm run watch:server'"
   },
   "repository": {
     "type": "git",
