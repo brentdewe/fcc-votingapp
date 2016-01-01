@@ -6,6 +6,7 @@ var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var passport = require('passport');
 var bodyParser = require('body-parser');
+var compression = require('compression');
 
 require('dotenv').load();
 
@@ -13,6 +14,7 @@ mongoose.connect(process.env.MONGO_URI);
 
 var app = express();
 
+app.use(compression());
 require('./app/routes/static')(app);
 
 app.use(bodyParser.urlencoded({ extended: false }));
