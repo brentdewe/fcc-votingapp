@@ -10,6 +10,11 @@ function requireLogin(req, res, next) {
 	}
 }
 
+var UsersController = require('../controllers/usersController');
+var usersCtrl = new UsersController();
+
+router.get('/users/me', requireLogin, usersCtrl.currentUser);
+
 var PollsController = require('../controllers/pollsController');
 var pollsCtrl = new PollsController();
 
