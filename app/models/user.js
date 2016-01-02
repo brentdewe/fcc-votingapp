@@ -11,8 +11,8 @@ var user = mongoose.Schema({
 	},
 	password: {
 		username: String,
-		salt: String,
-		hash: String
+		salt: { type: String, select: false },
+		hash: { type: String, select: false }
 	}
 });
 

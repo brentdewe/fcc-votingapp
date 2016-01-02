@@ -34,7 +34,8 @@ module.exports = function(passport) {
 	}));
 
 	passport.use(new LocalStrategy(function(username, password, done) {
-		User.findOne({ 'password.username': username }, function(err, user) {
+		User.findOne({ 'password.username': username },
+				'password.hash password.salt', function(err, user) {
 			if (err) {
 				return done(err);
 			}
