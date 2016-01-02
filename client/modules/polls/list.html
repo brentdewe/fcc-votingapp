@@ -1,3 +1,5 @@
 <ul>
-	<li ng-repeat="poll in polls">{{poll.title}}</li>
+	<li ng-repeat="poll in polls">
+		<a href="#/polls/{{poll._id}}">{{poll.title}}</a>
+	</li>
 </ul>

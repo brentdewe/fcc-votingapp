@@ -14,6 +14,10 @@ polls.config(['$routeProvider', function($routeProvider) {
 	.when('/polls/create', {
 		templateUrl: '/modules/polls/create.html',
 		controller: 'PollCreateCtrl'
+	})
+	.when('/polls/:id', {
+		templateUrl: '/modules/polls/detail.html',
+		controller: 'PollDetailCtrl'
 	});
 }]);
 
@@ -40,6 +44,29 @@ polls.controller('PollCreateCtrl', ['$scope', '$http',
 
 	$scope.submit = function(poll) {
 		$http.post('/api/polls', poll);
+	}
+}]);
+
+polls.controller('PollDetailCtrl', ['$http', '$scope', '$routeParams',
+ function($http, $scope, $routeParams) {
+	$http.get('/api/polls/' + $routeParams.id)
+	.then(function(response) {
+		var poll = response.data;
+		var totalVotes = poll.items.reduce(function(sum, item) {
+			return sum + item.votes;
+		}, 0);
+		poll.items.forEach(function(item) {
+			if (totalVotes == 0) {
+				item.percentage = 0;
+			} else {
+				item.percentage = item.votes / totalVotes;
+			}
+		});
+		$scope.poll = poll;
+	});
+
+	$scope.delete = function(poll) {
+		$http.delete('/api/polls/' + poll._id);
 	}
 }]);
 
