@@ -10,7 +10,7 @@ var user = mongoose.Schema({
 		displayname: String
 	},
 	password: {
-		username: String,
+		username: { type: String, unique: true },
 		salt: { type: String, select: false },
 		hash: { type: String, select: false }
 	}
