@@ -3,6 +3,13 @@
 <ul>
 	<li ng-repeat="item in poll.items">{{item.text}}</li>
 </ul>
+<form>
+	<div ng-repeat="item in poll.items">
+		<input type="radio" ng-model="poll.vote" value="{{$index}}" id="item-{{$index}}">
+		<label for="item-{{$index}}">{{item.text}}</label>
+	</div>
+	<button ng-click="vote(poll)">Vote</button>
+</form>
 <h4>Results</h4>
 <ul>
 	<li ng-repeat="item in poll.items">

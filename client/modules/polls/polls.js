@@ -49,21 +49,38 @@ polls.controller('PollCreateCtrl', ['$scope', '$http',
 
 polls.controller('PollDetailCtrl', ['$http', '$scope', '$routeParams',
  function($http, $scope, $routeParams) {
-	$http.get('/api/polls/' + $routeParams.id)
-	.then(function(response) {
-		var poll = response.data;
+
+	function addVotePercentages(poll) {
 		var totalVotes = poll.items.reduce(function(sum, item) {
 			return sum + item.votes;
 		}, 0);
-		poll.items.forEach(function(item) {
-			if (totalVotes == 0) {
-				item.percentage = 0;
-			} else {
+		if (totalVotes == 0) {
+			poll.items.forEach(function(item) { item.percentage = 0 });
+		} else {
+			poll.items.forEach(function(item) {
 				item.percentage = item.votes / totalVotes;
-			}
-		});
+			});
+		}
+	}
+
+	$http.get('/api/polls/' + $routeParams.id)
+	.then(function(response) {
+		var poll = response.data;
+		addVotePercentages(poll);
 		$scope.poll = poll;
 	});
+
+	$scope.vote = function(poll) {
+		if (poll.vote) {
+			$http.post('/api/polls/' + poll._id + '/vote/' + poll.vote)
+			.then(function(response) {
+				if (response.status == 200) {
+					addVotePercentages(response.data);
+					$scope.poll = response.data;
+				}
+			});
+		}
+	}
 
 	$scope.delete = function(poll) {
 		$http.delete('/api/polls/' + poll._id);
