@@ -1,20 +1,24 @@
 <h3>{{poll.title}}</h3>
 <p>{{poll.description}}</p>
-<ul>
-	<li ng-repeat="item in poll.items">{{item.text}}</li>
-</ul>
-<form>
-	<div ng-repeat="item in poll.items">
-		<input type="radio" ng-model="poll.vote" value="{{$index}}" id="item-{{$index}}">
-		<label for="item-{{$index}}">{{item.text}}</label>
-	</div>
-	<button ng-click="vote(poll)">Vote</button>
-</form>
-<h4>Results</h4>
-<ul>
-	<li ng-repeat="item in poll.items">
-		{{item.text}}<br>
-		{{'|'.repeat(item.percentage * 50)}} {{item.votes}}
-	</li>
-</ul>
-<button ng-if="poll.owner == currentUser()._id" ng-click="delete(poll)">Delete</button>
+
+<div ng-if="!hasVoted">
+	<h4>Vote</h4>
+	<form>
+		<div ng-repeat="item in poll.items">
+			<input type="radio" ng-model="poll.vote" value="{{$index}}" id="item-{{$index}}">
+			<label for="item-{{$index}}">{{item.text}}</label>
+		</div>
+		<button ng-click="vote(poll)">Vote</button>
+	</form>
+</div>
+
+<div ng-if="hasVoted || ownsPoll(poll)">
+	<h4>Results</h4>
+	<ul>
+		<li ng-repeat="item in poll.items">
+			{{item.text}}<br>
+			{{'|'.repeat(item.percentage * 50)}} {{item.votes}}
+		</li>
+	</ul>
+</div>
+<button ng-if="ownsPoll(poll)" ng-click="delete(poll)">Delete</button>

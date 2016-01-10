@@ -69,12 +69,17 @@ polls.controller('PollDetailCtrl', ['$http', '$scope', '$routeParams',
 		addVotePercentages(poll);
 		$scope.poll = poll;
 	});
+	$http.get('/api/polls/' + $routeParams.id + '/vote')
+	.then(function(response) {
+		$scope.hasVoted = 200 <= response.status && response.status < 300;
+	});
 
 	$scope.vote = function(poll) {
 		if (poll.vote) {
 			$http.post('/api/polls/' + poll._id + '/vote/' + poll.vote)
 			.then(function(response) {
 				if (response.status == 200) {
+					$scope.hasVoted = true;
 					addVotePercentages(response.data);
 					$scope.poll = response.data;
 				}
@@ -84,6 +89,10 @@ polls.controller('PollDetailCtrl', ['$http', '$scope', '$routeParams',
 
 	$scope.delete = function(poll) {
 		$http.delete('/api/polls/' + poll._id);
+	}
+
+	$scope.ownsPoll = function(poll) {
+		return poll.owner == $scope.currentUser()._id;
 	}
 }]);
 

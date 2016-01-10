@@ -102,4 +102,17 @@ module.exports = function() {
 		})
 		.catch(next);
 	}
+
+	this.hasVoted = function(req, res, next) {
+		findPoll(req.params.id)
+		.then(poll => Vote.findOne({ poll: poll._id, user: req.user._id }))
+		.then(function(vote) {
+			if (vote) {
+				res.status(204).end();
+			} else {
+				res.status(404).end();
+			}
+		})
+		.catch(next);
+	}
 }
