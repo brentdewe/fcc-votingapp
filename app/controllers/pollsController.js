@@ -1,9 +1,11 @@
 'use strict';
 
 var mongoose = require('mongoose');
+mongoose.Promise = Promise;
 var errors = require('../lib/http-errors');
 
 var Poll = require('../models/poll');
+var Vote = require('../models/vote');
 
 module.exports = function() {
 
@@ -70,6 +72,34 @@ module.exports = function() {
 		})
 		.then(poll => poll.remove())
 		.then((poll) => res.status(204).end())
+		.catch(next);
+	}
+
+	this.vote = function(req, res, next) {
+		findPoll(req.params.id)
+		.then(function(poll) {
+			if (req.params.vote >= poll.items.length) {
+				return NotFoundPromise();
+			}
+			var voteQuery = { poll: poll._id, user: req.user._id };
+			return Vote.findOne(voteQuery)
+			.then(function(vote) {
+				if (vote) {
+					res.status(409).json({ err: 'Already voted' });
+				} else {
+					return new Vote(voteQuery).save()
+					.then(function(vote) {
+						++poll.items[req.params.vote].votes;
+						return poll.save()
+						.then(poll => res.json(poll))
+						.catch(err => {
+							vote.remove();
+							return err;
+						});
+					});
+				}
+			});
+		})
 		.catch(next);
 	}
 }

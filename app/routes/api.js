@@ -22,6 +22,7 @@ router.get('/polls', pollsCtrl.find);
 router.post('/polls', requireLogin, pollsCtrl.create);
 router.get('/polls/:id', pollsCtrl.findId);
 router.delete('/polls/:id', requireLogin, pollsCtrl.removeId);
+router.post('/polls/:id/vote/:vote', requireLogin, pollsCtrl.vote);
 
 router.use(require('../lib/http-error-handler'));
 
