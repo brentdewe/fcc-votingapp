@@ -25,6 +25,10 @@ module.exports = function() {
 		return Promise.reject(new errors.NotFound);
 	}
 
+	function ForbiddenPromise() {
+		return Promise.reject(new errors.Forbidden);
+	}
+
 	/**
 	 * Return a promise resolving to the poll with the given id, or rejecting
 	 * with a NotFoundError or mongoose error.
@@ -66,7 +70,7 @@ module.exports = function() {
 		findPoll(req.params.id)
 		.then(function(poll) {
 			if (poll.owner != req.user.id) {
-				return NotFoundPromise();
+				return ForbiddenPromise();
 			}
 			return poll;
 		})
