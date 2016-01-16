@@ -38,9 +38,7 @@ polls.controller('OwnedPollsCtrl', ['$scope', '$http', function($scope, $http) {
 
 polls.controller('PollCreateCtrl', ['$scope', '$http',
  function($scope, $http) {
-	$scope.poll = {};
-	$scope.poll.items = [];
-	$scope.itemCount = 0;
+	$scope.poll = { items: [] };
 
 	$scope.submit = function(poll) {
 		$http.post('/api/polls', poll);
@@ -95,24 +93,6 @@ polls.controller('PollDetailCtrl', ['$http', '$scope', '$routeParams',
 	$scope.ownsPoll = function(poll) {
 		return poll.owner == $scope.currentUser()._id;
 	}
-}]);
-
-
-polls.directive('itemList', ['$compile', function($compile) {
-	return {
-		restrict: 'A',
-		link: function(scope, element, attrs) {
-			element.find('button').bind('click', function() {
-				var html = '<li><input type="text" ng-model="poll.items['
-					+ scope.itemCount + '].text"></li>';
-				var compiled = $compile(angular.element(html))(scope);
-				element.find('ul').append(compiled);
-
-				scope.poll.items.push({});
-				++scope.itemCount;
-			});
-		}
-	};
 }]);
 
 })();

@@ -9,9 +9,13 @@
 	</p>
 	<!-- items -->
 	<p>Items:<p>
-	<div item-list>
-		<ul></ul>
-		<button>Add item</button>
+	<div>
+		<ul>
+			<li ng-repeat="item in poll.items">
+				<input type="text" ng-model="item.text" value="{{item.text}}">
+			</li>
+		</ul>
+		<button ng-click="poll.items.push({})">Add item</button>
 	</div>
-	<button ng-click="submit(poll)">Create</button>
+	<button ng-click="submit(poll)">Submit</button>
 </form>
