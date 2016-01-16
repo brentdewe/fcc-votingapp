@@ -18,6 +18,10 @@ polls.config(['$routeProvider', function($routeProvider) {
 	.when('/polls/:id', {
 		templateUrl: '/modules/polls/detail.html',
 		controller: 'PollDetailCtrl'
+	})
+	.when('/polls/:id/edit', {
+		templateUrl: '/modules/polls/create.html',
+		controller: 'PollsEditCtrl'
 	});
 }]);
 
@@ -45,8 +49,8 @@ polls.controller('PollCreateCtrl', ['$scope', '$http',
 	}
 }]);
 
-polls.controller('PollDetailCtrl', ['$http', '$scope', '$routeParams',
- function($http, $scope, $routeParams) {
+polls.controller('PollDetailCtrl', ['$http', '$scope', '$routeParams', '$location',
+function($http, $scope, $routeParams, $location) {
 
 	function addVotePercentages(poll) {
 		var totalVotes = poll.items.reduce(function(sum, item) {
@@ -92,6 +96,26 @@ polls.controller('PollDetailCtrl', ['$http', '$scope', '$routeParams',
 
 	$scope.ownsPoll = function(poll) {
 		return poll.owner == $scope.currentUser()._id;
+	}
+
+	$scope.edit = function() {
+		$location.path($location.path() + '/edit');
+	}
+}]);
+
+
+polls.controller('PollsEditCtrl', ['$scope', '$http', '$routeParams',
+function($scope, $http, $routeParams) {
+	var pollUrl = '/api/polls/' + $routeParams.id;
+	$http.get(pollUrl)
+	.then(function(response) {
+		if (response.status == 200) {
+			$scope.poll = response.data;
+		}
+	});
+
+	$scope.submit = function(poll) {
+		$http.put(pollUrl, poll);
 	}
 }]);
 
