@@ -21,6 +21,7 @@ var pollsCtrl = new PollsController();
 router.get('/polls', pollsCtrl.find);
 router.post('/polls', requireLogin, pollsCtrl.create);
 router.get('/polls/:id', pollsCtrl.findId);
+router.put('/polls/:id', requireLogin, pollsCtrl.update);
 router.delete('/polls/:id', requireLogin, pollsCtrl.removeId);
 router.get('/polls/:id/vote', requireLogin, pollsCtrl.hasVoted);
 router.post('/polls/:id/vote/:vote', requireLogin, pollsCtrl.vote);

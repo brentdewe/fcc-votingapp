@@ -60,6 +60,19 @@ module.exports = function() {
 		}, next);
 	}
 
+	this.update = function(req, res, next) {
+		findPoll(req.params.id)
+		.then(function(poll) {
+			if (poll.owner != req.user.id) {
+				return ForbiddenPromise();
+			}
+			poll.set(req.body);
+			return poll.save();
+		})
+		.then(() => res.status(204).end())
+		.catch(next);
+	}
+
 	this.findId = function(req, res, next) {
 		findPoll(req.params.id)
 		.then(res.json.bind(res))
