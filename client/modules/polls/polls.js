@@ -63,6 +63,7 @@ polls.controller('PollDetailCtrl', ['$http', '$scope', '$routeParams',
 		}
 	}
 
+	$scope.poll = {};
 	$http.get('/api/polls/' + $routeParams.id)
 	.then(function(response) {
 		var poll = response.data;
