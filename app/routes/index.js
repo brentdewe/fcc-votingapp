@@ -15,4 +15,9 @@ module.exports = function(app, passport) {
 		successRedirect: '/',
 		failureRedirect: '/#/login'
 	}));
+
+	app.get('/auth/logout', function(req, res) {
+		req.logout();
+		res.redirect(req.query.url || '/');
+	});
 }
