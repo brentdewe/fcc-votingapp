@@ -6,6 +6,13 @@
 </head>
 
 <body ng-controller="AppCtrl">
+	<nav><ul>
+		<li><a href="#/">Home</a></li>
+		<li><a href="#/polls">Polls</a></li>
+		<li ng-if="!isAuthenticated()"><a href="#/login">Sign in</a></li>
+		<li ng-if="isAuthenticated()"><a href="/auth/logout?url={{location.absUrl()}}">Logout</a></li>
+	</ul></nav>
+
 	<div ng-view></div>
 
 	<script src="/angular.js"></script>

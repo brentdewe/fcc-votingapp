@@ -9,10 +9,12 @@ app.config(['$routeProvider', function($routeProvider) {
 	});
 }]);
 
-app.controller('AppCtrl', ['$scope', 'auth', function($scope, auth) {
+app.controller('AppCtrl', ['$scope', 'auth', '$location',
+function($scope, auth, $location) {
 	auth.checkAuthentication();
 	$scope.currentUser = auth.currentUser;
 	$scope.isAuthenticated = auth.isAuthenticated;
+	$scope.location = $location;
 }]);
 
 })();
