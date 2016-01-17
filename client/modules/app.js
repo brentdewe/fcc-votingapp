@@ -5,7 +5,7 @@ var app = angular.module('app', ['auth', 'login', 'polls', 'ngRoute']);
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider
 	.when('/', {
-		templateUrl: '/modules/start.html'
+		redirectTo: '/polls'
 	});
 }]);
 

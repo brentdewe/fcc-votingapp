@@ -1,5 +1,18 @@
-<ul>
-	<li ng-repeat="poll in polls">
-		<a href="#/polls/{{poll._id}}">{{poll.title}}</a>
-	</li>
-</ul>
+<style>
+.polls li div {
+	margin: 10px;
+	padding: 10px;
+	border: 1px solid #999;
+}
+</style>
+<div class="container-fluid">
+	<a ng-if="isAuthenticated()" href="#/polls/create" class="btn btn-primary">Create poll</a>
+	<ul class="row polls list-inline">
+		<li ng-repeat="poll in polls" class="col-xs-12 col-sm-6 col-md-4">
+			<div>
+				<h4><a href="#/polls/{{poll._id}}">{{poll.title}}</a></h4>
+				<p>{{poll.description | limitTo:200}}</p>
+			</div>
+		</li>
+	</ul>
+</div>

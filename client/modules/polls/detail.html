@@ -1,27 +1,49 @@
-<h3>{{poll.title}}</h3>
-<p>{{poll.description}}</p>
+<style>
+main {
+	max-width: 600px;
+}
 
-<div ng-if="!hasVoted">
+section {
+	margin: 20px;
+}
+
+h3, h4 {
+	text-align: center;
+}
+</style>
+<main class="center-block">
+
+<section>
+	<h3>{{poll.title}}</h3>
+	<p>{{poll.description}}</p>
+</section>
+
+<section ng-if="!hasVoted">
 	<h4>Vote</h4>
 	<form>
-		<div ng-repeat="item in poll.items">
+		<div ng-repeat="item in poll.items" class="form-group">
 			<input type="radio" ng-model="poll.vote" value="{{$index}}" id="item-{{$index}}">
 			<label for="item-{{$index}}">{{item.text}}</label>
 		</div>
-		<button ng-click="vote(poll)">Vote</button>
+		<button ng-click="vote(poll)" class="btn btn-primary">Vote</button>
 	</form>
-</div>
+</section>
 
-<div ng-if="hasVoted || ownsPoll(poll)">
+<section ng-if="hasVoted || ownsPoll(poll)">
 	<h4>Results</h4>
-	<ul>
+	<ul class="list-unstyled">
 		<li ng-repeat="item in poll.items">
 			{{item.text}}<br>
 			{{'|'.repeat(item.percentage * 50)}} {{item.votes}}
 		</li>
 	</ul>
-</div>
-<button ng-if="ownsPoll(poll)" ng-click="edit(poll)">Edit</button>
-<button ng-if="ownsPoll(poll)" ng-click="delete(poll)">Delete</button>
+</section>
 
-<a twitter data-text="Check out this poll" data-url="{{location.absUrl()}}"></a>
+<p><a twitter data-text="Check out this poll" data-url="{{location.absUrl()}}"></a></p>
+
+<p>
+	<button ng-if="ownsPoll(poll)" ng-click="edit(poll)" class="btn btn-warning">Edit</button>
+	<button ng-if="ownsPoll(poll)" ng-click="delete(poll)" class="btn btn-danger">Delete</button>
+<p>
+
+</main>

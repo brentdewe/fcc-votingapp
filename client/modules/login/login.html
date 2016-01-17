@@ -1,11 +1,21 @@
-<a href="/auth/github">Sign in with GitHub</a>
-<form method="post" action="/auth/local">
+<style>
+main {
+	max-width: 500px;
+}
+</style>
+<main class="center-block">
 	<p>
-		<label for="username">Username</label>
-		<input id="username" name="username" type="text">
-	</p><p>
-		<label for="password">Password</label>
-		<input id="password" name="password" type="password">
+		<a href="/auth/github" class="btn btn-default">Sign in with GitHub</a>
 	</p>
-	<button type="submit">Sign in</button>
-</form>
+	<form method="post" action="/auth/local">
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input id="username" name="username" type="text" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input id="password" name="password" type="password" class="form-control">
+		</div>
+		<button type="submit" class="btn btn-primary">Sign in</button>
+	</form>
+</main>
