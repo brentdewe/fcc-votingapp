@@ -40,12 +40,15 @@ polls.controller('OwnedPollsCtrl', ['$scope', '$http', function($scope, $http) {
 }]);
 
 
-polls.controller('PollCreateCtrl', ['$scope', '$http',
- function($scope, $http) {
+polls.controller('PollCreateCtrl', ['$scope', '$http', '$location',
+ function($scope, $http, $location) {
 	$scope.poll = { items: [] };
 
 	$scope.submit = function(poll) {
-		$http.post('/api/polls', poll);
+		$http.post('/api/polls', poll)
+		.then(function(response) {
+			$location.path('/polls/' + response.data._id);
+		});
 	}
 }]);
 
@@ -97,7 +100,10 @@ function($http, $scope, $routeParams, $location) {
 	}
 
 	$scope.delete = function(poll) {
-		$http.delete('/api/polls/' + poll._id);
+		$http.delete('/api/polls/' + poll._id)
+		.then(function() {
+			$location.path('/polls');
+		});
 	}
 
 	$scope.ownsPoll = function(poll) {
@@ -113,8 +119,8 @@ function($http, $scope, $routeParams, $location) {
 }]);
 
 
-polls.controller('PollsEditCtrl', ['$scope', '$http', '$routeParams',
-function($scope, $http, $routeParams) {
+polls.controller('PollsEditCtrl', ['$scope', '$http', '$routeParams', '$location',
+function($scope, $http, $routeParams, $location) {
 	var pollUrl = '/api/polls/' + $routeParams.id;
 	$http.get(pollUrl)
 	.then(function(response) {
@@ -124,7 +130,10 @@ function($scope, $http, $routeParams) {
 	});
 
 	$scope.submit = function(poll) {
-		$http.put(pollUrl, poll);
+		$http.put(pollUrl, poll)
+		.then(function() {
+			$location.path('/polls/' + poll._id);
+		});
 	}
 }]);
 
