@@ -9,6 +9,8 @@ module.exports = function(app) {
 			'node_modules/angular-route/angular-route.min.js'));
 	app.use('/modules', express.static('client/dist/modules'));
 
+	app.use('/bootstrap.css', express.static('node_modules/bootstrap/dist/css/bootstrap.css'));
+
 	app.get('/', function(req, res) {
 		res.sendFile(process.cwd() + '/client/dist/modules/index.html');
 	});

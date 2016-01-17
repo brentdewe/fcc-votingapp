@@ -29,6 +29,7 @@
     "angular": "^1.4.8",
     "angular-route": "^1.4.8",
     "body-parser": "^1.14.2",
+    "bootstrap": "^3.3.6",
     "compression": "^1.6.0",
     "connect-mongodb-session": "^1.1.0",
     "cpx": "^1.2.1",
