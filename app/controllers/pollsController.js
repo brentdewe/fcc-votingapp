@@ -93,10 +93,18 @@ module.exports = function() {
 	}
 
 	this.vote = function(req, res, next) {
+		function incVotes(poll, vote) {
+			++poll.items[vote].votes;
+			return poll.save()
+			.then(poll => res.json(poll));
+		}
 		findPoll(req.params.id)
 		.then(function(poll) {
 			if (req.params.vote >= poll.items.length) {
 				return NotFoundPromise();
+			}
+			if (!req.isAuthenticated()) {
+				return incVotes(poll, req.params.vote);
 			}
 			var voteQuery = { poll: poll._id, user: req.user._id };
 			return Vote.findOne(voteQuery)
@@ -106,12 +114,10 @@ module.exports = function() {
 				} else {
 					return new Vote(voteQuery).save()
 					.then(function(vote) {
-						++poll.items[req.params.vote].votes;
-						return poll.save()
-						.then(poll => res.json(poll))
+						incVotes(poll, req.params.vote)
 						.catch(err => {
 							vote.remove();
-							return err;
+							throw err;
 						});
 					});
 				}
