@@ -103,6 +103,9 @@ function($http, $scope, $routeParams, $location) {
 	}
 
 	$scope.ownsPoll = function(poll) {
+		if (!$scope.currentUser()) {
+			return false;
+		}
 		return poll.owner == $scope.currentUser()._id;
 	}
 
