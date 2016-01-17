@@ -75,7 +75,7 @@ function($http, $scope, $routeParams, $location) {
 	if ($scope.isAuthenticated()) {
 		$http.get('/api/polls/' + $routeParams.id + '/vote')
 		.then(function(response) {
-			$scope.hasVoted = 200 <= response.status && response.status < 300;
+			$scope.hasVoted = true;
 		});
 	} else {
 		$scope.hasVoted = (localStorage
@@ -86,13 +86,11 @@ function($http, $scope, $routeParams, $location) {
 		if (poll.vote) {
 			$http.post('/api/polls/' + poll._id + '/vote/' + poll.vote)
 			.then(function(response) {
-				if (response.status == 200) {
-					$scope.hasVoted = true;
-					addVotePercentages(response.data);
-					$scope.poll = response.data;
-					if (!$scope.isAuthenticated() && localStorage) {
-						localStorage.setItem('vote-' + $routeParams.id, true);
-					}
+				$scope.hasVoted = true;
+				addVotePercentages(response.data);
+				$scope.poll = response.data;
+				if (!$scope.isAuthenticated() && localStorage) {
+					localStorage.setItem('vote-' + $routeParams.id, true);
 				}
 			});
 		}
