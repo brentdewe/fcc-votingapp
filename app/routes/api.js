@@ -14,6 +14,7 @@ var UsersController = require('../controllers/usersController');
 var usersCtrl = new UsersController();
 
 router.get('/users/me', requireLogin, usersCtrl.currentUser);
+router.delete('/users/me', requireLogin, usersCtrl.delete);
 
 var PollsController = require('../controllers/pollsController');
 var pollsCtrl = new PollsController();

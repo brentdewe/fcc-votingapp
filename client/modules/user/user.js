@@ -14,10 +14,18 @@ user.config(['$routeProvider', function($routeProvider) {
 }]);
 
 
-user.controller('UserProfileCtrl', ['$scope', '$location',
-function($scope, $location) {
-	if (!$scope.isAuthenticated()) {
+user.controller('UserProfileCtrl', ['auth', '$location', '$scope', '$http',
+function(auth, $location, $scope, $http) {
+	if (!auth.isAuthenticated()) {
 		$location.path('/');
+	}
+
+	$scope.deleteUser = function() {
+		$http.delete('/api/users/me')
+		.then(function() {
+			auth.logout();
+			$location.path('/');
+		});
 	}
 }]);
 

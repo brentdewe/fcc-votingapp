@@ -23,6 +23,9 @@ auth.factory('auth', ['$http', 'session', function($http, session) {
 	auth.currentUser = function() {
 		return session.user;
 	}
+	auth.logout = function() {
+		session.user = null;
+	}
 	return auth;
 }]);
 
