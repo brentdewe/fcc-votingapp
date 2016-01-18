@@ -1,6 +1,6 @@
 (function() {
 
-var app = angular.module('app', ['auth', 'login', 'polls', 'ngRoute']);
+var app = angular.module('app', ['auth', 'user', 'polls', 'ngRoute']);
 
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider
