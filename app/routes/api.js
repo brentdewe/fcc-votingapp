@@ -13,6 +13,7 @@ function requireLogin(req, res, next) {
 var UsersController = require('../controllers/usersController');
 var usersCtrl = new UsersController();
 
+router.post('/users', usersCtrl.create);
 router.get('/users/me', requireLogin, usersCtrl.currentUser);
 router.delete('/users/me', requireLogin, usersCtrl.delete);
 
